@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'kr.co.ejyang'
+version = '1.0.0'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // data
+    implementation 'org.apache.commons:commons-lang3:3.10'
+
+    // file
+    implementation 'commons-io:commons-io:2.11.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+//processResources {
+//    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+//}
+//
+//ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
+//
+//sourceSets {
+//    main {
+//        resources {
+//            srcDirs "src/main/resources/resources-${profile}"
+//            exclude "resources-*"
+//        }
+//    }
+//}
+
+jar {
+    enabled = true
+}
+bootJar {
+    enabled = false
+}
