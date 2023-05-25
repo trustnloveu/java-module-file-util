@@ -1,4 +1,4 @@
-package module_file_util.util;
+package kr.co.ejyang.module_file_util.util;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
@@ -8,10 +8,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.UUID;
 
-import static module_file_util.config.CommonConsts.*;
+import static kr.co.ejyang.module_file_util.config.CommonConsts.*;
 
-@Component("CommonUtil")
+@Component
 public class FileCommonUtil {
 
     // #########################################################################################
@@ -50,6 +51,22 @@ public class FileCommonUtil {
 
         // 최종 파일명
         return ranInt + formatDateTime + "." + Objects.requireNonNull(originalNameExtension).toLowerCase();
+    }
+
+
+    /*******************************************************************************************
+     * 임시 파일명 URL 발급 ( UUID - 타임스템프 )
+     *  - Redis Key 사용
+     *******************************************************************************************/
+    public String generateFileTempUrl() {
+        //
+        UUID uuid = UUID.randomUUID();
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddHHmmssSSS");
+        String formatDateTime = now.format(formatter);
+
+        return uuid + "-" + formatDateTime;
     }
 
 

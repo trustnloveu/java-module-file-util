@@ -1,4 +1,4 @@
-package module_file_util.config;
+package kr.co.ejyang.module_file_util.config;
 
 public interface CommonConsts {
 
