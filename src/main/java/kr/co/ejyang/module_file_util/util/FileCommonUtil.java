@@ -12,7 +12,7 @@ import java.util.UUID;
 
 import static kr.co.ejyang.module_file_util.config.CommonConsts.*;
 
-@Component
+@Component("FileCommonUtil")
 public class FileCommonUtil {
 
     // #########################################################################################
