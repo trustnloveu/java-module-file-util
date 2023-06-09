@@ -7,8 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static kr.co.ejyang.module_file_util.config.CommonConsts.*;
 
@@ -59,7 +61,6 @@ public class FileCommonUtil {
      *  - Redis Key 사용
      *******************************************************************************************/
     public String generateFileTempUrl() {
-        //
         UUID uuid = UUID.randomUUID();
 
         LocalDateTime now = LocalDateTime.now();
@@ -67,6 +68,36 @@ public class FileCommonUtil {
         String formatDateTime = now.format(formatter);
 
         return uuid + "-" + formatDateTime;
+    }
+
+    /*******************************************************************************************
+     * Storage Key 검증
+     *  - 파일 경로 Key 일치 검증
+     *  - 경로 형식 = /{StorageKey}/{FileType}/{DirPath}/{file}
+     *  - Storage Key = 2번째 인덱스
+     *******************************************************************************************/
+    public boolean isValidKeyInPath(String path, String key) {
+        String[] pathArray = path.split("/");
+        List<String> pathList = Arrays.stream(pathArray).collect(Collectors.toList());
+
+        if (pathList.size() < 2 ) throw new ArrayIndexOutOfBoundsException(String.format("잘못된 경로입니다. ( %s )", path));
+
+        return key.equals(pathList.get(2));
+    }
+
+    /*******************************************************************************************
+     * 파일 타입 검증
+     *  - 파일 경로 File Type 일치 검증 ( public, private )
+     *  - 경로 형식 = /{StorageKey}/{FileType}/{DirPath}/{file}
+     *  - File Type = 3번째 인덱스
+     *******************************************************************************************/
+    public boolean isValidAccessByFileType(String path, String type) {
+        String[] pathArray = path.split("/");
+        List<String> pathList = Arrays.stream(pathArray).collect(Collectors.toList());
+
+        if (pathList.size() < 3 ) throw new ArrayIndexOutOfBoundsException(String.format("잘못된 경로입니다. ( %s )", path));
+
+        return type.equals(pathList.get(2));
     }
 
 
